@@ -26,7 +26,7 @@ project(openssl-cmake)
 
 set(BUILD_OPENSSL OFF CACHE BOOL "Automated OpenSSL building")
 set(OPENSSL_BUILD_VERSION OFF CACHE STRING "OpenSSL version to build")
-set(OPENSSL_USE_STATIC_LIBS ON CACHE STRING "OpenSSL static libs are preferred over shared libs")
+set(OPENSSL_USE_STATIC_LIBS OFF CACHE STRING "OpenSSL static libs are preferred over shared libs")
 set(OPENSSL_INSTALL_MAN OFF CACHE STRING "Install man pages?")
 set(OPENSSL_MODULES "no-cast no-md2 no-md4 no-mdc2 no-rc4 no-rc5 no-engine no-idea no-mdc2 no-rc5 no-camellia no-ssl3 no-heartbeats no-gost no-deprecated no-capieng no-comp no-dtls no-psk no-srp no-dso no-dsa no-rc2 no-des" CACHE STRING "OpenSSL configure options")
 set(OPENSSL_RPATH "" CACHE STRING "RPath to set during build")
