@@ -210,6 +210,7 @@ else()
         DEPENDEES
         DEPENDERS download
         ALWAYS ON
+        INDEPENDENT TRUE
     )
 
     # set, don't abort if it fails (due to variables being empty). To realize this we must only call git if the configs
