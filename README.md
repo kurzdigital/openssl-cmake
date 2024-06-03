@@ -17,8 +17,9 @@ as a convenience for debugging purposes and NOT for production use.
 Available prebuilt binaries can be viewed [here](https://builds.viaduck.org/prebuilts/openssl/).
 
 ## Build OpenSSL
-In order to build `OpenSSL`, set `BUILD_OPENSSL=ON` along with the branch or 
-tag name, for example `OPENSSL_BRANCH=OpenSSL_1_1_0g`. 
+In order to build `OpenSSL`, set `BUILD_OPENSSL=ON` along with the version
+name, for example `OPENSSL_BUILD_VERSION=3.1.5`.
+View available versions [here](https://mirror.viaduck.org/openssl/).
 
 ### General Cross Compile
 Cross compilation is enabled using `CROSS=ON` and the target is specified using
