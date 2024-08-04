@@ -29,7 +29,7 @@ include(ExternalProject)
 
 # find packages
 find_package(Git REQUIRED)
-find_package(PythonInterp 3 REQUIRED)
+find_package(Python COMPONENTS Interpreter REQUIRED)
 
 # # used to apply various patches to OpenSSL
 find_program(PATCH_PROGRAM patch)
@@ -103,7 +103,7 @@ else()
     endif()
 
     # python helper script for corrent building environment
-    set(BUILD_ENV_TOOL ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/building_env.py
+    set(BUILD_ENV_TOOL ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/building_env.py
         --bash "${MSYS_BASH}" --make "${MINGW_MAKE}" --envfile "${CMAKE_CURRENT_BINARY_DIR}/buildenv.txt" ${OS})
 
     # user-specified modules
