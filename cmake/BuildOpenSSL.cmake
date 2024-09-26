@@ -1,6 +1,6 @@
 # MIT License
 #
-# Copyright (c) 2015-2023 The ViaDuck Project
+# Copyright (c) 2015-2024 The ViaDuck Project
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,9 @@ include(ProcessorCount)
 include(ExternalProject)
 
 # find packages
-find_package(Git REQUIRED)
 find_package(Python COMPONENTS Interpreter REQUIRED)
 
-# # used to apply various patches to OpenSSL
+# used to apply various patches to OpenSSL
 find_program(PATCH_PROGRAM patch)
 if (NOT PATCH_PROGRAM)
     message(FATAL_ERROR "Cannot find patch utility. This is only required for Android cross-compilation but due to script complexity "
@@ -80,10 +79,6 @@ else()
         # for OpenSSL we can only use GNU make, no exotic things like Ninja (MSYS always uses GNU make)
         find_program(MAKE_PROGRAM make)
     endif()
-
-    # save old git values for core.autocrlf and core.eol
-    execute_process(COMMAND ${GIT_EXECUTABLE} config --global --get core.autocrlf OUTPUT_VARIABLE GIT_CORE_AUTOCRLF OUTPUT_STRIP_TRAILING_WHITESPACE)
-    execute_process(COMMAND ${GIT_EXECUTABLE} config --global --get core.eol OUTPUT_VARIABLE GIT_CORE_EOL OUTPUT_STRIP_TRAILING_WHITESPACE)
 
     # on windows we need to replace path to perl since CreateProcess(..) cannot handle unix paths
     if (WIN32 AND NOT CROSS)
@@ -201,44 +196,6 @@ else()
         COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} ${CMAKE_BINARY_DIR}                    # force CMake-reload
 
         LOG_INSTALL 1
-    )
-
-    # set git config values to openssl requirements (no impact on linux though)
-    ExternalProject_Add_Step(openssl setGitConfig
-        COMMAND ${GIT_EXECUTABLE} config --global core.autocrlf false
-        COMMAND ${GIT_EXECUTABLE} config --global core.eol lf
-        DEPENDEES
-        DEPENDERS download
-        ALWAYS ON
-        INDEPENDENT TRUE
-    )
-
-    # set, don't abort if it fails (due to variables being empty). To realize this we must only call git if the configs
-    # are set globally, otherwise do a no-op command ("echo 1", since "true" is not available everywhere)
-    if (GIT_CORE_AUTOCRLF)
-        set (GIT_CORE_AUTOCRLF_CMD ${GIT_EXECUTABLE} config --global core.autocrlf ${GIT_CORE_AUTOCRLF})
-    else()
-        set (GIT_CORE_AUTOCRLF_CMD echo)
-    endif()
-    if (GIT_CORE_EOL)
-        set (GIT_CORE_EOL_CMD ${GIT_EXECUTABLE} config --global core.eol ${GIT_CORE_EOL})
-    else()
-        set (GIT_CORE_EOL_CMD echo)
-    endif()
-    ##
-
-    # set git config values to previous values
-    ExternalProject_Add_Step(openssl restoreGitConfig
-    # unset first (is required, since old value could be omitted, which wouldn't take any effect in "set"
-        COMMAND ${GIT_EXECUTABLE} config --global --unset core.autocrlf
-        COMMAND ${GIT_EXECUTABLE} config --global --unset core.eol
-
-        COMMAND ${GIT_CORE_AUTOCRLF_CMD}
-        COMMAND ${GIT_CORE_EOL_CMD}
-
-        DEPENDEES download
-        DEPENDERS configure
-        ALWAYS ON
     )
 
     # write all "FORWARD_" variables with escaped quotes to file, is picked up by python script
