@@ -126,7 +126,7 @@ function(target_architecture output_var)
             list(APPEND ARCH ppc64)
         endif()
     else()
-        file(WRITE "${CMAKE_BINARY_DIR}/arch.c" "${archdetect_c_code}")
+        file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/arch.c" "${archdetect_c_code}")
 
         enable_language(C)
 
@@ -141,8 +141,8 @@ function(target_architecture output_var)
         try_run(
                 run_result_unused
                 compile_result_unused
-                "${CMAKE_BINARY_DIR}"
-                "${CMAKE_BINARY_DIR}/arch.c"
+                "${CMAKE_CURRENT_BINARY_DIR}"
+                "${CMAKE_CURRENT_BINARY_DIR}/arch.c"
                 COMPILE_OUTPUT_VARIABLE ARCH
                 CMAKE_FLAGS CMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}
         )
