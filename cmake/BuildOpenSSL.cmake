@@ -193,7 +193,7 @@ else()
 
         INSTALL_COMMAND ${BUILD_ENV_TOOL} <SOURCE_DIR> -- ${PERL_PATH_FIX_INSTALL}
         COMMAND ${BUILD_ENV_TOOL} <SOURCE_DIR> -- ${MAKE_PROGRAM} DESTDIR=${OPENSSL_PREFIX} install_sw ${INSTALL_OPENSSL_MAN}
-        COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} ${CMAKE_BINARY_DIR}                    # force CMake-reload
+        COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} "${CMAKE_BINARY_DIR}/_deps/openssl-subbuild"                    # force CMake-reload
 
         LOG_INSTALL 1
     )
