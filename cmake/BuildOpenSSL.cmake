@@ -154,11 +154,13 @@ else()
         
         # collect options to pass via ENV to openssl configure
         set(FORWARD_ANDROID_NDK "${ANDROID_NDK}")
+        set(FORWARD_ANDROID_NDK_ROOT "${ANDROID_NDK}")
         # silence warnings about unused arguments (Clang specific)
         set(FORWARD_CFLAGS "${CMAKE_C_FLAGS} -Qunused-arguments")
         set(FORWARD_CXXFLAGS "${CMAKE_CXX_FLAGS} -Qunused-arguments")
         set(FORWARD_LDFLAGS "${CMAKE_MODULE_LINKER_FLAGS}")
-        set(FORWARD_PATH "${ANDROID_TOOLCHAIN_ROOT}/bin/:${ANDROID_TOOLCHAIN_ROOT}/${ANDROID_TOOLCHAIN_NAME}/bin/")
+        get_filename_component(_ndk_bin "${CMAKE_C_COMPILER}" DIRECTORY)
+        set(FORWARD_PATH "${_ndk_bin}/")
         
         # Android specific configuration options
         set(CONFIGURE_OPENSSL_MODULES ${CONFIGURE_OPENSSL_MODULES} no-hw)
