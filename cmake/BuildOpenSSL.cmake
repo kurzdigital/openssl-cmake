@@ -197,7 +197,10 @@ else()
         COMMAND ${BUILD_ENV_TOOL} <SOURCE_DIR> -- ${MAKE_PROGRAM} DESTDIR=${OPENSSL_PREFIX} install_sw ${INSTALL_OPENSSL_MAN}
         COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} "${CMAKE_BINARY_DIR}/_deps/openssl-subbuild"                    # force CMake-reload
 
+        LOG_CONFIGURE 1
+        LOG_BUILD 1
         LOG_INSTALL 1
+        LOG_OUTPUT_ON_FAILURE 1
     )
 
     # write all "FORWARD_" variables with escaped quotes to file, is picked up by python script
